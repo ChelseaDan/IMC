@@ -1,5 +1,7 @@
 package Question3;
 
+import com.sun.deploy.util.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,49 +12,62 @@ import java.io.InputStreamReader;
 public class Main {
 
     public static void main(String[] args) {
+        gameLoop();
+    }
+
+    private static void gameLoop() {
         Computer computer = new Computer();
-        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("---Welcome to RockPaperScissors---");
-        label:while (true) {
-            System.out.println("Please enter your move: ROCK(R), PAPER(P), SCISSORS(S), Quit(Q)");
-            try {
-                String move = input.readLine();
-                Move playerMove;
+        while (true) {
+            Move move = getPlayerMove();
 
-                switch (move) {
-                    case "R": playerMove = Move.ROCK; break;
-                    case "P": playerMove = Move.PAPER; break;
-                    case "S": playerMove = Move.SCISSORS; break;
-                    case "Q": break label;
-                    default: continue label;
-                }
+            Move computerMove = computer.getComputerMove();
+            Result result = getResult(move, computerMove);
 
-                Move compMove = computer.getComputerMove();
-                Result result = playerResult(playerMove, compMove);
-                System.out.println("Your move was : " + playerMove.toString());
-                System.out.println("Computer move was : " + compMove.toString());
-                System.out.println("The result was : " + result.toString());
-            } catch (IOException e) {
-                System.out.println(e.getStackTrace());
+            printResult(computerMove, move, result);
+        }
+    }
+
+    private static Result getResult(Move move, Move computerMove) {
+
+        Result result;
+        if (move == computerMove) {
+            result = Result.DRAW;
+        } else {
+            switch (move) {
+                case ROCK:
+                    result = (computerMove == Move.SCISSORS) ? Result.LOSE : Result.WIN;
+                    break;
+                case PAPER:
+                    result = (computerMove == Move.ROCK) ? Result.LOSE : Result.WIN;
+                    break;
+                case SCISSORS:
+                    result = (computerMove == Move.PAPER) ? Result.LOSE : Result.WIN;
+                    break;
+                default:
+                    /* Quit */
+                    result = null;
+                    System.exit(0);
             }
         }
-
+        return result;
     }
 
-    public static Result playerResult(Move playerMove, Move computerMove) {
-        if (playerMove == computerMove) {
-            return Result.DRAW;
-        }
-        switch (playerMove) {
-            case PAPER:
-                return (computerMove == Move.SCISSORS) ? Result.LOSE : Result.WIN;
-            case SCISSORS:
-                return (computerMove == Move.ROCK) ? Result.LOSE : Result.WIN;
-            case ROCK:
-                return (computerMove == Move.PAPER) ? Result.LOSE : Result.WIN;
-            default:
-                return null;
-        }
+    private static void printResult(Move computerMove, Move move, Result result) {
+        System.out.println("Your move was : " + move.toString());
+        System.out.println("Computer move was : " + computerMove.toString());
+        System.out.println("The result was : " + result.toString());
     }
 
+    public static Move getPlayerMove() {
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Please enter your move: ROCK, PAPER, SCISSORS, Quit(Q)");
+        while(true) {
+            try {
+                return Move.valueOf(input.readLine().toUpperCase());
+            } catch (IllegalArgumentException | IOException e) {
+                System.out.println("Invalid move. Please try again.");
+            }
+        }
+    }
 }

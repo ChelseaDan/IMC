@@ -6,5 +6,6 @@ package Question3;
 public enum Move {
     ROCK,
     PAPER,
-    SCISSORS
+    SCISSORS,
+    Q
 }
