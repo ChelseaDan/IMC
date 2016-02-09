@@ -5,6 +5,8 @@ import Question2.Appliances.Blender;
 /**
  * Created by dg1613 on 05/02/16.
  */
+
+/*Adapter class for blenders.*/
 public class BlenderAdapter implements ApplianceAdapter {
 
     private Blender blender;

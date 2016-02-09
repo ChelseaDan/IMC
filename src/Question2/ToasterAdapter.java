@@ -5,6 +5,8 @@ import Question2.Appliances.Toaster;
 /**
  * Created by dg1613 on 05/02/16.
  */
+
+/*Adapter class for toasters.*/
 public class ToasterAdapter implements ApplianceAdapter {
 
     private Toaster toaster;

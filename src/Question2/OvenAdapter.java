@@ -6,6 +6,7 @@ import Question2.Appliances.Oven;
 /**
  * Created by dg1613 on 05/02/16.
  */
+/*Adapter class for ovens.*/
 public class OvenAdapter implements ApplianceAdapter {
 
     private Oven oven;

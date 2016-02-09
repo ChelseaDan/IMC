@@ -20,12 +20,14 @@ public class MultiPowerPoint {
         applianceList.add(appliance);
     }
 
+    /*Method to call power on, on all appliances.*/
     public void turnOnAll() {
         for (ApplianceAdapter ap : applianceList) {
             ap.powerOn();
         }
     }
 
+    /*Method to call power off, on all appliances.*/
     public void turnOffAll() {
         for (ApplianceAdapter ap : applianceList) {
             ap.powerOff();
